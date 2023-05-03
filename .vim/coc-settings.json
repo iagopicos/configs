@@ -1,0 +1,6 @@
+{
+  "diagnostic.messageTarget":"float",
+  "coc.preferences.jumpCommand":"tab drop",
+  "coc.preferences.formatOnType": true
+
+}
