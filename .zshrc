@@ -1,17 +1,23 @@
 
 # If you come from bash you might have to change your $PATH.
- export PATH=$HOME/bin:/usr/local/bin:$PATH
- PATH=$HOME/.local/bin:$PATH
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+PATH=$HOME/.local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/iago/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 export VIRTUALENVWRAPPER_PYTHON=$(which python3)
+
+#export WORKON_HOME=$HOME/.virtualenvs
+#source Library/Python/3.9/bin/virtualenvwrapper.sh
+
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="powerlevel9k/powerlevel9k"
+
+#ZSH_THEME="powerlevel9k/powerlevel9k"
+ZSH_THEME="jonathan"
 ######################
 #####POWERLEVEL9K#####
 ######################
@@ -22,6 +28,7 @@ POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=""
 POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX="$ > "
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon dir)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(vcs  status virtualenv  root_indicator battery time)
+
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
@@ -118,19 +125,20 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
  alias zshconfig="nano ~/.zshrc"
  alias ohmyzsh="nano ~/.oh-my-zsh"
- alias j8="export JAVA_HOME=$(/usr/libexec/java_home -v 1.8);
-  java -version"
- alias j11="export JAVA_HOME=$(/usr/libexec/java_home -v 11.0);
-  java -version"
-  alias j15="export JAVA_HOME=$(/usr/libexec/java_home -v 15.0);
-  java -version"
 
-alias start-cluster="/usr/local/Cellar/apache-flink/1.11.1/libexec/bin/start-cluster.sh;
-echo Cluster is starting ..."
-alias stop-cluster="(/usr/local/Cellar/apache-flink/1.11.1/libexec/bin/stop-cluster.sh);
-echo Clustier is stopping ..."
+# alias j8="export JAVA_HOME=$(/usr/libexec/java_home -v 1.8);
+# java -version"
+# alias j11="export JAVA_HOME=$(/usr/libexec/java_home -v 11.0);
+#  java -version"
+#  alias j15="export JAVA_HOME=$(/usr/libexec/java_home -v 15.0);
+#  java -version"
+
+#alias start-cluster="/usr/local/Cellar/apache-flink/1.11.1/libexec/bin/start-cluster.sh;
+#echo Cluster is starting ..."
+#alias stop-cluster="(/usr/local/Cellar/apache-flink/1.11.1/libexec/bin/stop-cluster.sh);
+#echo Clustier is stopping ..."
 #Alias LoL
-alias play-lol="cd /Applications/League\ of\ Legends.app/Contents/LoL && ./LeagueClient.app/Contents/MacOS/LeagueClient"
+#alias play-lol="cd /Applications/League\ of\ Legends.app/Contents/LoL && ./LeagueClient.app/Contents/MacOS/LeagueClient"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 #export PATH="/usr/local/opt/openjdk@11/bin:$PATH"
 #export PATH="/usr/local/opt/openjdk@11/bin:$PATH"
