@@ -26,7 +26,7 @@ P.S. You can delete this when you're done too. It's your config now :)
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
-vim.g.mapleader = '/'
+vim.g.mapleader = ' '
 vim.g.maplocalleader = '/'
 
 -- Install package manager
@@ -113,7 +113,7 @@ require('lazy').setup({
     'EdenEast/nightfox.nvim',
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'duskfox'
+      vim.cmd.colorscheme 'carbonfox'
     end,
   },
 
@@ -124,13 +124,13 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = true,
-        theme = 'onedark',
+        theme = 'wombat',
         component_separators = '|',
         section_separators = '',
       },
     },
-    sections= {
-      lualine_b= {'branch','diff','diagnostic'}
+    sections = {
+      lualine_b = { 'branch', 'diff', 'diagnostic' }
 
     },
   },
@@ -269,6 +269,11 @@ require('telescope').setup {
       },
     },
   },
+  pickers={
+    buffers={
+      initial_mode="normal",
+    }
+  }
 }
 
 -- Enable telescope fzf native, if installed
@@ -393,8 +398,10 @@ local on_attach = function(_, bufnr)
   nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
   nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 
-  vim.api.nvim_set_keymap('n','<leader>w',':w <cr>',{noremap = true})
-  vim.api.nvim_set_keymap('n','<leader>q',':q <cr>',{noremap = true})
+  vim.api.nvim_set_keymap('n', '<leader>w', ':w <cr>', { noremap = true })
+  vim.api.nvim_set_keymap('n', '<leader>q', ':q <cr>', { noremap = true })
+  vim.api.nvim_set_keymap('n', '<leader>nt', ':Neotree <cr>', { noremap = true })
+  vim.api.nvim_set_keymap('n', '<leader>t', ':ToggleTerm <cr>', { noremap = true })
   -- See `:help K` for why this keymap
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
   nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
@@ -406,7 +413,7 @@ local on_attach = function(_, bufnr)
   nmap('<leader>wl', function()
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end, '[W]orkspace [L]ist Folders')
-  vim.api.nvim_set_keymap('n', '<leader>f', ':lua vim.lsp.buf.formatting()<cr>', { noremap = true })
+  vim.api.nvim_set_keymap('n', '<leader>f', ':lua vim.lsp.buf.format()<cr>', { noremap = true })
 
   -- Create a command `:Format` local to the LSP buffer
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
