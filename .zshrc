@@ -7,7 +7,11 @@ PATH=$HOME/.local/bin:$PATH
 export ZSH="$HOME/.oh-my-zsh"
 
 export VIRTUALENVWRAPPER_PYTHON=$(which python3)
+export VIRTUAL_ENV_DISABLE_PROMPT=1
 
+function virtualenv_info {
+[ $VIRTUAL_ENV ] && echo '('`basename $VIRTUAL_ENV`')'
+}
 #export WORKON_HOME=$HOME/.virtualenvs
 #source Library/Python/3.9/bin/virtualenvwrapper.sh
 
@@ -17,8 +21,12 @@ export VIRTUALENVWRAPPER_PYTHON=$(which python3)
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 
 #ZSH_THEME="powerlevel9k/powerlevel9k"
-ZSH_THEME="jonathan"
+#ZSH_THEME="bureau-env"
+ZSH_THEME="spaceship"
+SPACESHIP_CHAR_SYMBOL="> "
+SPACESHIP_CHAR_COLOR_SUCCESS="blue"	
 ######################
+
 #####POWERLEVEL9K#####
 ######################
 POWERLEVEL9K_MODE="nerdfont-complete"
@@ -99,6 +107,7 @@ zsh-autosuggestions
 )
 
 source $ZSH/oh-my-zsh.sh
+source ~/scripts/*
 
 # User configuration
 
@@ -123,9 +132,9 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
- alias zshconfig="nano ~/.zshrc"
- alias ohmyzsh="nano ~/.oh-my-zsh"
-
+ alias zshconfig="nvim ~/.zshrc"
+ alias ohmyzsh="nvim ~/.oh-my-zsh"
+ alias nv="nvim ."
 # alias j8="export JAVA_HOME=$(/usr/libexec/java_home -v 1.8);
 # java -version"
 # alias j11="export JAVA_HOME=$(/usr/libexec/java_home -v 11.0);
@@ -142,3 +151,4 @@ source $ZSH/oh-my-zsh.sh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 #export PATH="/usr/local/opt/openjdk@11/bin:$PATH"
 #export PATH="/usr/local/opt/openjdk@11/bin:$PATH"
+export PATH="/usr/local/opt/openjdk/bin:$PATH"

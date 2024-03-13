@@ -45,6 +45,16 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+local vim = vim
+local opt = vim.opt
+
+opt.foldmethod = "expr"
+opt.foldexpr = "nvim_treesitter#foldexpr()"
+
+-- Agregar un autocmd para abrir todos los folds al abrir un archivo
+vim.cmd([[
+  autocmd BufWinEnter * silent! normal! zR
+]])
 -- NOTE: Here is where you install your plugins.
 --  You can configure plugins using the `config` key.
 --
@@ -52,13 +62,24 @@ vim.opt.rtp:prepend(lazypath)
 --    as they will be available in your neovim runtime.
 require('lazy').setup({
   -- NOTE: First, some plugins that don't require any configuration
-
   -- Git related plugins
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
+  -- Live server
+  'turbio/bracey.vim',
 
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
+  --Folding
+  { 'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async'
+
+  },
+  {
+    'anuvyklack/pretty-fold.nvim',
+    config = function()
+      require('pretty-fold').setup {}
+    end
+  },
   --Surrounding
   {
     'windwp/nvim-autopairs',
@@ -108,12 +129,33 @@ require('lazy').setup({
   },
 
   {
+    'nvimdev/dashboard-nvim',
+    event = 'VimEnter',
+    config = function()
+      require('dashboard').setup {
+        -- config
+      }
+    end,
+    dependencies = { { 'nvim-tree/nvim-web-devicons' } }
+  },
+
+  {
     -- Theme inspired by Atom
-    --'navarasu/onedark.nvim',
-    'EdenEast/nightfox.nvim',
+    --navarasu/onedark.nvim',
+    --'olimorris/onedarkpro.nvim',
+    --'EdenEast/nightfox.nvim',
+    --'mcchrish/zenbones.nvim',
+    --'dasupradyumna/midnight.nvim',
+    --  'catppuccin/nvim',
+    -- 'bluz71/vim-moonfly-colors',
+    --Yazeed1s/oh-lucy.nvim',
+    'uloco/bluloco.nvim',
+    dependencies = { 'rktjmp/lush.nvim' },
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'carbonfox'
+      -- vim.cmd.colorscheme 'duckbones'
+      vim.cmd.colorscheme 'bluloco-dark'
+      -- require("catppuccin").setup()
     end,
   },
 
@@ -124,13 +166,13 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = true,
-        theme = 'wombat',
+        theme = 'horizon',
         component_separators = '|',
         section_separators = '',
       },
     },
     sections = {
-      lualine_b = { 'branch', 'diff', 'diagnostic' }
+      lualine_b = { 'branch', 'diff', 'diagnostic' },
 
     },
   },
@@ -150,7 +192,7 @@ require('lazy').setup({
   { 'numToStr/Comment.nvim',         opts = {} },
 
   -- Fuzzy Finder (files, lsp, etc)
-  { 'nvim-telescope/telescope.nvim', version = '*', dependencies = { 'nvim-lua/plenary.nvim' } },
+  { 'nvim-telescope/telescope.nvim', branch = '0.1.5', dependencies = { 'nvim-lua/plenary.nvim' } },
 
   -- Fuzzy Finder Algorithm which requires local dependencies to be built.
   -- Only load if `make` is available. Make sure you have the system
@@ -260,18 +302,19 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
+local actions = require "telescope.actions"
 require('telescope').setup {
   defaults = {
     mappings = {
-      i = {
+      n = {
         ['<C-u>'] = false,
-        ['<C-d>'] = false,
+        ['<c-d>'] = actions.delete_buffer,
       },
     },
   },
-  pickers={
-    buffers={
-      initial_mode="normal",
+  pickers = {
+    buffers = {
+      initial_mode = "normal",
     }
   }
 }
@@ -300,7 +343,7 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim' },
+  ensure_installed = { 'html', 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'javascript', 'vimdoc', 'vim', 'vue' },
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = false,
@@ -308,7 +351,7 @@ require('nvim-treesitter.configs').setup {
     enable = true,
   },
   highlight = { enable = true },
-  indent = { enable = true, disable = { 'python' } },
+  indent = { enable = true, disable = { 'python', 'javascript', 'jsx', 'javascript.jsx' } },
   incremental_selection = {
     enable = true,
     keymaps = {
@@ -471,7 +514,7 @@ local luasnip = require 'luasnip'
 
 luasnip.config.setup {}
 
-cmp.setup {
+cmp.setup({
   snippet = {
     expand = function(args)
       luasnip.lsp_expand(args.body)
@@ -508,7 +551,6 @@ cmp.setup {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
   },
-}
-
+})
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
