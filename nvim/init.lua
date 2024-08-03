@@ -141,20 +141,23 @@ require('lazy').setup({
 
   {
     -- Theme inspired by Atom
-    --navarasu/onedark.nvim',
+    --'navarasu/onedark.nvim',
     --'olimorris/onedarkpro.nvim',
     --'EdenEast/nightfox.nvim',
     --'mcchrish/zenbones.nvim',
     --'dasupradyumna/midnight.nvim',
     --  'catppuccin/nvim',
-    -- 'bluz71/vim-moonfly-colors',
+     'bluz71/vim-moonfly-colors',
     --Yazeed1s/oh-lucy.nvim',
-    'uloco/bluloco.nvim',
+    --'uloco/bluloco.nvim',
+    --'olimorris/onedarkpro.nvim',
+    --'liuchengxu/space-vim-dark',
+    --'folke/tokyonight.nvim',
     dependencies = { 'rktjmp/lush.nvim' },
     priority = 1000,
     config = function()
-      -- vim.cmd.colorscheme 'duckbones'
-      vim.cmd.colorscheme 'bluloco-dark'
+     -- vim.cmd.colorscheme 'tokyonight-night'
+      vim.cmd.colorscheme 'moonfly'
       -- require("catppuccin").setup()
     end,
   },
