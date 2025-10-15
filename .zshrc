@@ -7,14 +7,14 @@ PATH=$HOME/.local/bin:$PATH
 export ZSH="$HOME/.oh-my-zsh"
 
 export VIRTUALENVWRAPPER_PYTHON=$(which python3)
-export VIRTUAL_ENV_DISABLE_PROMPT=1
+#export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 function virtualenv_info {
 [ $VIRTUAL_ENV ] && echo '('`basename $VIRTUAL_ENV`')'
 }
-#export WORKON_HOME=$HOME/.virtualenvs
-#source Library/Python/3.9/bin/virtualenvwrapper.sh
-
+# export WORKON_HOME=$HOME/.virtualenvs
+# source Library/Python/3.9/bin/virtualenvwrapper.sh
+# #source /usr/local/opt/geometry/share/geometry/geometry.zsh
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -22,11 +22,13 @@ function virtualenv_info {
 
 #ZSH_THEME="powerlevel9k/powerlevel9k"
 #ZSH_THEME="bureau-env"
-ZSH_THEME="spaceship"
-SPACESHIP_CHAR_SYMBOL="> "
-SPACESHIP_CHAR_COLOR_SUCCESS="blue"	
+#ZSH_THEME="spaceship"
+ZSH_THEME="gallifrey"
+#ZSH_THEME="skaro"
+#ZSH_THEME="geometry"
+#SPACESHIP_CHAR_SYMBOL="> "
+#SPACESHIP_CHAR_COLOR_SUCCESS="blue"	
 ######################
-
 #####POWERLEVEL9K#####
 ######################
 POWERLEVEL9K_MODE="nerdfont-complete"
@@ -108,7 +110,31 @@ zsh-autosuggestions
 
 source $ZSH/oh-my-zsh.sh
 source ~/scripts/*
+# Función para traer trabajos en segundo plano al frente usando fzf
+fzf-fg() {
+  # 1. Obtiene la lista de trabajos en segundo plano (jobs -l)
+  # 2. Pasa esa lista a fzf para selección interactiva
+  # 3. Usa 'grep -o' y 'cut' para extraer solo el número del trabajo ([N])
 
+  local job_selection
+
+  # Obtiene el número del trabajo seleccionado y lo guarda en la variable 'choice'
+  job_selection=$(
+    jobs -l | fzf --no-sort --border \
+      --header="Selecciona el trabajo para traer al frente (fg):" \
+      --preview 'ps -o user,pid,pcpu,pmem,tty,state,start,time,comm -p $(echo {} | awk "{print \$2}")' \
+      --preview-window right:50% | \
+    grep -o '\[[0-9]*\]' | tr -d '[]'
+  )
+
+  # Si se seleccionó un trabajo, ejecuta 'fg' con ese número
+  if [[ -n "$job_selection" ]]; then
+    fg "%$job_selection"
+  fi
+}
+
+# Crea un alias corto, por ejemplo, 'fjf' (fzf job foreground)
+alias fjf='fzf-fg'
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -134,7 +160,7 @@ source ~/scripts/*
 # Example aliases
  alias zshconfig="nvim ~/.zshrc"
  alias ohmyzsh="nvim ~/.oh-my-zsh"
- alias nv="nvim ."
+ alias v="nvim"
 # alias j8="export JAVA_HOME=$(/usr/libexec/java_home -v 1.8);
 # java -version"
 # alias j11="export JAVA_HOME=$(/usr/libexec/java_home -v 11.0);
